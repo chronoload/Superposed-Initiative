@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Superpose · MVP</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="brand">
+        <span class="mark" aria-hidden="true"></span>
+        <h1>Superpose</h1>
+        <span class="tag">MVP</span>
+      </div>
+      <div class="status">
+        <span id="state" class="pill">S0_EJECTED</span>
+        <span id="link" class="dot" title="WebSocket 未连接"></span>
+      </div>
+      <div class="actions">
+        <button id="insert" class="primary">插入</button>
+        <button id="eject" class="ghost">弹出</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="panel readout">
+        <h2>运行时读数</h2>
+        <dl>
+          <div><dt>Agent Core</dt><dd id="core">—</dd></div>
+          <div><dt>Session</dt><dd id="session">—</dd></div>
+          <div><dt>Turns</dt><dd id="turns">0</dd></div>
+          <div><dt>Provider</dt><dd id="provider">stub-a</dd></div>
+          <div><dt>设备</dt><dd id="devices">—</dd></div>
+          <div><dt>量子条目</dt><dd id="quantum">0</dd></div>
+        </dl>
+        <h2>生命周期</h2>
+        <div id="machine" class="machine"></div>
+        <ol id="lifecycle" class="lifecycle"></ol>
+      </section>
+
+      <section class="panel converse">
+        <h2>对话</h2>
+        <div id="transcript" class="transcript"></div>
+        <form id="composer" autocomplete="off">
+          <input id="text" type="text" placeholder="对刚体说点什么…" />
+          <button id="send" type="submit">发送</button>
+        </form>
+        <div class="device-row">
+          <button id="device" class="ghost" type="button">切换 LED</button>
+          <span id="verdict" class="verdict">尚未请求设备</span>
+        </div>
+      </section>
+
+      <section class="panel mech">
+        <h2>机制证据</h2>
+        <div class="mech-block">
+          <div class="mech-title">三源收敛</div>
+          <div id="sources" class="sources"></div>
+          <p class="hint">A manifest · B 量子 · C GET /iface：device 集合一致 + 量子可达条目 ≥ 1 + ownerSuiteId 一致 + baseline 0.1</p>
+        </div>
+        <div class="mech-block">
+          <div class="mech-title">全局状态量子 · append-only 哈希链</div>
+          <p id="qmeta" class="hint"></p>
+          <div id="quantumlog" class="qlog"></div>
+        </div>
+        <div class="mech-block">
+          <div class="mech-title">设备请求 · 四步双校验</div>
+          <ol id="checks" class="checks"></ol>
+        </div>
+        <div class="mech-block">
+          <div class="mech-title">退相干证据</div>
+          <div id="decohere" class="decohere">尚未发生</div>
+        </div>
+        <div class="mech-block">
+          <div class="mech-title">落盘位置</div>
+          <dl id="paths" class="paths"></dl>
+        </div>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

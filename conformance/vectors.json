@@ -1,0 +1,967 @@
+{
+  "description": "Conformance INPUT fixtures for docs/MVP-CONTRACT.md. Contains no expected outputs: canonical bytes, sha256hex, base64url, signatures, legality verdicts and verification verdicts are all recomputed by run-ts.mjs and run-python.py from these inputs. ts is resolved at runtime as runnerNow + tsOffsetMs so fixtures never go stale.",
+  "contract": "docs/MVP-CONTRACT.md sections 3.1 (Envelope), 3.2 (PlaintextHeader legality), 0.4 (no build step)",
+  "signer": {
+    "note": "throwaway Ed25519 seed for conformance fixtures only; never reuse outside tests",
+    "privateKeySeed": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8",
+    "publicKey": "A6EHv_POEL4dcN0Y50vAmWfk1jCbpQ1fHdyGZBJVMbg"
+  },
+  "defaultSubset": {
+    "legalFields": [
+      "region",
+      "epochMs",
+      "subjects",
+      "subjectId",
+      "op",
+      "resource",
+      "granteeKeyIds",
+      "notBefore",
+      "notAfter",
+      "deviceId",
+      "ops",
+      "meta",
+      "ownerSuiteId",
+      "state",
+      "observedAt"
+    ]
+  },
+  "cases": [
+    {
+      "id": "valid-env",
+      "description": "legal category env, plain payload, fresh timestamp, valid signature",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "6f1c2f7a-9b2d-4c3e-8a51-0d7e4b1c2f30",
+        "source": {
+          "kind": "agent-core",
+          "id": "core_0123456789abcdef"
+        },
+        "type": "core.contribute",
+        "version": "0.1",
+        "corrId": "0a1b2c3d-4e5f-4a6b-8c9d-0e1f2a3b4c5d",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "region": "cn-north-1",
+            "epochMs": 1,
+            "subjects": [
+              "agent.core",
+              "mobile.suite"
+            ]
+          }
+        }
+      },
+      "header": {
+        "category": "env",
+        "sensitivity": "P1",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "env.v1",
+          "version": "1"
+        },
+        "fields": [
+          "region",
+          "epochMs",
+          "subjects"
+        ]
+      }
+    },
+    {
+      "id": "valid-perm",
+      "description": "legal category perm with the six required field names, plain payload",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d",
+        "source": {
+          "kind": "embody",
+          "id": "embody_0123456789abcdef"
+        },
+        "type": "perm.grant",
+        "version": "0.1",
+        "corrId": "1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "subjectId": "core_0123456789abcdef",
+            "op": "device.led.set"
+          }
+        }
+      },
+      "header": {
+        "category": "perm",
+        "sensitivity": "P0",
+        "keyIds": [
+          "key_56475aa75463474c",
+          "key_ab12cd34"
+        ],
+        "schema": {
+          "name": "perm.v1",
+          "version": "1"
+        },
+        "fields": [
+          "subjectId",
+          "op",
+          "resource",
+          "granteeKeyIds",
+          "notBefore",
+          "notAfter"
+        ]
+      }
+    },
+    {
+      "id": "valid-iface",
+      "description": "legal category iface, static interface metadata envelope",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "2b3c4d5e-6f70-4b8c-9d0e-1f2a3b4c5d6e",
+        "source": {
+          "kind": "mobile-suite",
+          "id": "suite_0123456789abcdef"
+        },
+        "type": "iface.metadata",
+        "version": "0.1",
+        "corrId": "2b3c4d5e-6f70-4b8c-9d0e-1f2a3b4c5d6e",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "deviceId": "led",
+            "ops": [
+              "device.led.set"
+            ]
+          }
+        }
+      },
+      "header": {
+        "category": "iface",
+        "sensitivity": "P1",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "iface.v1",
+          "version": "1"
+        },
+        "fields": [
+          "deviceId",
+          "ops",
+          "meta",
+          "ownerSuiteId"
+        ]
+      }
+    },
+    {
+      "id": "valid-device",
+      "description": "legal category device, dynamic device state envelope",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "3c4d5e6f-7081-4c9d-8e1f-2a3b4c5d6e7f",
+        "source": {
+          "kind": "mobile-suite",
+          "id": "suite_0123456789abcdef"
+        },
+        "type": "device.state",
+        "version": "0.1",
+        "corrId": "3c4d5e6f-7081-4c9d-8e1f-2a3b4c5d6e7f",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "deviceId": "led",
+            "state": {
+              "on": true
+            }
+          }
+        }
+      },
+      "header": {
+        "category": "device",
+        "sensitivity": "P2",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "device.v1",
+          "version": "1"
+        },
+        "fields": [
+          "deviceId",
+          "state",
+          "observedAt"
+        ]
+      }
+    },
+    {
+      "id": "missing-required-field",
+      "description": "perm header omits notAfter -> E_FIELDS_MISSING",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "4d5e6f70-8192-4d0e-9f2a-3b4c5d6e7f80",
+        "source": {
+          "kind": "embody",
+          "id": "embody_0123456789abcdef"
+        },
+        "type": "perm.grant",
+        "version": "0.1",
+        "corrId": "4d5e6f70-8192-4d0e-9f2a-3b4c5d6e7f80",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "subjectId": "core_0123456789abcdef",
+            "op": "device.led.set"
+          }
+        }
+      },
+      "header": {
+        "category": "perm",
+        "sensitivity": "P0",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "perm.v1",
+          "version": "1"
+        },
+        "fields": [
+          "subjectId",
+          "op",
+          "resource",
+          "granteeKeyIds",
+          "notBefore"
+        ]
+      }
+    },
+    {
+      "id": "category-mismatch",
+      "description": "category iface but schema.name device.v1 -> E_CATEGORY_MISMATCH",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "5e6f7081-92a3-4e1f-8a3b-4c5d6e7f8091",
+        "source": {
+          "kind": "mobile-suite",
+          "id": "suite_0123456789abcdef"
+        },
+        "type": "iface.metadata",
+        "version": "0.1",
+        "corrId": "5e6f7081-92a3-4e1f-8a3b-4c5d6e7f8091",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "deviceId": "display"
+          }
+        }
+      },
+      "header": {
+        "category": "iface",
+        "sensitivity": "P1",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "device.v1",
+          "version": "1"
+        },
+        "fields": [
+          "deviceId",
+          "ops",
+          "meta",
+          "ownerSuiteId"
+        ]
+      }
+    },
+    {
+      "id": "illegal-category",
+      "description": "category bench is not a legal information category -> E_LEGALITY",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "6f708192-a3b4-4f2a-9b3c-5d6e7f8091a2",
+        "source": {
+          "kind": "agent-core",
+          "id": "core_0123456789abcdef"
+        },
+        "type": "core.contribute",
+        "version": "0.1",
+        "corrId": "6f708192-a3b4-4f2a-9b3c-5d6e7f8091a2",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "region": "cn-north-1"
+          }
+        }
+      },
+      "header": {
+        "category": "bench",
+        "sensitivity": "P3",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "env.v1",
+          "version": "1"
+        },
+        "fields": [
+          "region",
+          "epochMs",
+          "subjects"
+        ]
+      }
+    },
+    {
+      "id": "schema-version-mismatch",
+      "description": "category env with schema.version 2 -> E_VERSION (pins the split of contract step 2)",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "708192a3-b4c5-4a3b-8c4d-6e7f8091a2b3",
+        "source": {
+          "kind": "agent-core",
+          "id": "core_0123456789abcdef"
+        },
+        "type": "core.contribute",
+        "version": "0.1",
+        "corrId": "708192a3-b4c5-4a3b-8c4d-6e7f8091a2b3",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "region": "cn-north-1"
+          }
+        }
+      },
+      "header": {
+        "category": "env",
+        "sensitivity": "P1",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "env.v1",
+          "version": "2"
+        },
+        "fields": [
+          "region",
+          "epochMs",
+          "subjects"
+        ]
+      }
+    },
+    {
+      "id": "empty-keyids",
+      "description": "all other checks pass, keyIds empty -> E_KEYIDS_EMPTY",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "8192a3b4-c5d6-4b4c-9d5e-7f8091a2b3c4",
+        "source": {
+          "kind": "agent-core",
+          "id": "core_0123456789abcdef"
+        },
+        "type": "core.contribute",
+        "version": "0.1",
+        "corrId": "8192a3b4-c5d6-4b4c-9d5e-7f8091a2b3c4",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "region": "cn-north-1"
+          }
+        }
+      },
+      "header": {
+        "category": "env",
+        "sensitivity": "P1",
+        "keyIds": [],
+        "schema": {
+          "name": "env.v1",
+          "version": "1"
+        },
+        "fields": [
+          "region",
+          "epochMs",
+          "subjects"
+        ]
+      }
+    },
+    {
+      "id": "undeclared-field",
+      "description": "fields names modelWeights, which the protocol subset does not declare -> E_LEGALITY",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "92a3b4c5-d6e7-4c5d-8e6f-8091a2b3c4d5",
+        "source": {
+          "kind": "mobile-suite",
+          "id": "suite_0123456789abcdef"
+        },
+        "type": "device.state",
+        "version": "0.1",
+        "corrId": "92a3b4c5-d6e7-4c5d-8e6f-8091a2b3c4d5",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "deviceId": "sensor"
+          }
+        }
+      },
+      "header": {
+        "category": "device",
+        "sensitivity": "P2",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "device.v1",
+          "version": "1"
+        },
+        "fields": [
+          "deviceId",
+          "state",
+          "observedAt",
+          "modelWeights"
+        ]
+      }
+    },
+    {
+      "id": "multi-violation-order",
+      "description": "category mismatch plus empty keyIds plus empty fields -> E_CATEGORY_MISMATCH proves fixed check order",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "a3b4c5d6-e7f8-4d6e-9f70-91a2b3c4d5e6",
+        "source": {
+          "kind": "mobile-suite",
+          "id": "suite_0123456789abcdef"
+        },
+        "type": "iface.metadata",
+        "version": "0.1",
+        "corrId": "a3b4c5d6-e7f8-4d6e-9f70-91a2b3c4d5e6",
+        "payload": {
+          "enc": "plain",
+          "body": {}
+        }
+      },
+      "header": {
+        "category": "iface",
+        "sensitivity": "P4",
+        "keyIds": [],
+        "schema": {
+          "name": "device.v1",
+          "version": "2"
+        },
+        "fields": []
+      }
+    },
+    {
+      "id": "expired-envelope",
+      "description": "ts is 400s in the past, signature valid -> E_STALE",
+      "tsOffsetMs": -400000,
+      "envelope": {
+        "id": "b4c5d6e7-f809-4e7f-8a81-92a3b4c5d6e7",
+        "source": {
+          "kind": "mobile-suite",
+          "id": "suite_0123456789abcdef"
+        },
+        "type": "device.state",
+        "version": "0.1",
+        "corrId": "b4c5d6e7-f809-4e7f-8a81-92a3b4c5d6e7",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "deviceId": "led"
+          }
+        }
+      },
+      "header": {
+        "category": "device",
+        "sensitivity": "P2",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "device.v1",
+          "version": "1"
+        },
+        "fields": [
+          "deviceId",
+          "state",
+          "observedAt"
+        ]
+      }
+    },
+    {
+      "id": "future-skew",
+      "description": "ts is 120s in the future, beyond the 60s allowance -> E_STALE",
+      "tsOffsetMs": 120000,
+      "envelope": {
+        "id": "c5d6e7f8-091a-4f80-9b92-a3b4c5d6e7f8",
+        "source": {
+          "kind": "agent-core",
+          "id": "core_0123456789abcdef"
+        },
+        "type": "session.head",
+        "version": "0.1",
+        "corrId": "c5d6e7f8-091a-4f80-9b92-a3b4c5d6e7f8",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "sessionId": "c5d6e7f8-091a-4f80-9b92-a3b4c5d6e7f8"
+          }
+        }
+      },
+      "header": {
+        "category": "env",
+        "sensitivity": "P0",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "env.v1",
+          "version": "1"
+        },
+        "fields": [
+          "region",
+          "epochMs",
+          "subjects"
+        ]
+      }
+    },
+    {
+      "id": "bad-signature",
+      "description": "correct-length but invalid signature -> E_SIG; legality is still legal",
+      "tsOffsetMs": 0,
+      "sigOverride": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "envelope": {
+        "id": "d6e7f809-1a2b-4081-8ca3-b4c5d6e7f809",
+        "source": {
+          "kind": "mobile-suite",
+          "id": "suite_0123456789abcdef"
+        },
+        "type": "iface.metadata",
+        "version": "0.1",
+        "corrId": "d6e7f809-1a2b-4081-8ca3-b4c5d6e7f809",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "deviceId": "display",
+            "ops": []
+          }
+        }
+      },
+      "header": {
+        "category": "iface",
+        "sensitivity": "P1",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "iface.v1",
+          "version": "1"
+        },
+        "fields": [
+          "deviceId",
+          "ops",
+          "meta",
+          "ownerSuiteId"
+        ]
+      }
+    },
+    {
+      "id": "unicode-escape-boundary",
+      "description": "quotes, backslashes, control chars, DEL, CJK, emoji, combining marks, U+2028/U+2029, NBSP in payload strings",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "e7f8091a-2b3c-4192-9db4-c5d6e7f8091a",
+        "source": {
+          "kind": "mobile-suite",
+          "id": "suite_0123456789abcdef"
+        },
+        "type": "device.state",
+        "version": "0.1",
+        "corrId": "e7f8091a-2b3c-4192-9db4-c5d6e7f8091a",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "ascii": "plain text",
+            "quote": "he said \"hi\" and \\ backslash",
+            "controls": "line\nbreak\ttab\u0001ctrl\u001funit",
+            "del": "a\u007fb",
+            "cjk": "中文键值",
+            "emoji": "😀🚀",
+            "combining": "e\u0301",
+            "separators": "a\u2028b\u2029c",
+            "nbsp": "a\u00a0b",
+            "braces": "{{}}[](),:"
+          }
+        }
+      },
+      "header": {
+        "category": "device",
+        "sensitivity": "P2",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "device.v1",
+          "version": "1"
+        },
+        "fields": [
+          "deviceId",
+          "state",
+          "observedAt"
+        ]
+      }
+    },
+    {
+      "id": "key-order-scrambled",
+      "description": "object keys provided in non-sorted order, including a non-ASCII key, to pin UTF-16 code-unit ordering",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "f8091a2b-3c4d-4a3b-8ec5-d6e7f8091a2b",
+        "source": {
+          "kind": "mobile-suite",
+          "id": "suite_0123456789abcdef"
+        },
+        "type": "iface.metadata",
+        "version": "0.1",
+        "corrId": "f8091a2b-3c4d-4a3b-8ec5-d6e7f8091a2b",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "zulu": 1,
+            "Mike": 2,
+            "_underscore": 3,
+            "0leading": 4,
+            "alpha": {
+              "zeta": true,
+              "beta": null,
+              "Alpha": [
+                3,
+                2,
+                1
+              ]
+            },
+            "é": "accent"
+          }
+        }
+      },
+      "header": {
+        "category": "iface",
+        "sensitivity": "P1",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "iface.v1",
+          "version": "1"
+        },
+        "fields": [
+          "deviceId",
+          "ops",
+          "meta",
+          "ownerSuiteId"
+        ]
+      }
+    },
+    {
+      "id": "deep-nested-payload",
+      "description": "14 levels of nested objects and arrays with mixed scalar types",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "091a2b3c-4d5e-4b4c-9fd6-e7f8091a2b3c",
+        "source": {
+          "kind": "mobile-suite",
+          "id": "suite_0123456789abcdef"
+        },
+        "type": "device.state",
+        "version": "0.1",
+        "corrId": "091a2b3c-4d5e-4b4c-9fd6-e7f8091a2b3c",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "root": {
+              "depth2": [
+                {
+                  "depth3": {
+                    "depth4": [
+                      [
+                        "depth6",
+                        {
+                          "depth7": {
+                            "depth8": [
+                              {
+                                "depth9": {
+                                  "depth10": {
+                                    "depth11": [
+                                      "leaf",
+                                      {
+                                        "depth13": true,
+                                        "depth13b": null,
+                                        "depth13c": -1.25
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "header": {
+        "category": "device",
+        "sensitivity": "P2",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "device.v1",
+          "version": "1"
+        },
+        "fields": [
+          "deviceId",
+          "state",
+          "observedAt"
+        ]
+      }
+    },
+    {
+      "id": "numeric-precision-boundary",
+      "description": "negative zero, 0.1+0.2 artefact, 1e-7/1e-6 exponent switch, 1e21 decimal/exponent switch, 1e20, max safe integer, long fraction",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5e",
+        "source": {
+          "kind": "agent-core",
+          "id": "core_0123456789abcdef"
+        },
+        "type": "core.contribute",
+        "version": "0.1",
+        "corrId": "1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5e",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "zero": 0,
+            "negZero": -0,
+            "half": 0.1,
+            "sum": 0.30000000000000004,
+            "tiny": 1e-7,
+            "micro": 1e-6,
+            "huge": 1e21,
+            "largeDecimal": 1e20,
+            "maxSafe": 9007199254740991,
+            "minSafe": -9007199254740991,
+            "expo": 1.5e-10,
+            "frac": 123456789.123456789
+          }
+        }
+      },
+      "header": {
+        "category": "env",
+        "sensitivity": "P1",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "env.v1",
+          "version": "1"
+        },
+        "fields": [
+          "region",
+          "epochMs",
+          "subjects"
+        ]
+      }
+    },
+    {
+      "id": "b64url-mod0",
+      "description": "padding tuned so the canonical UTF-8 byte length is a multiple of 3 (no partial quantum)",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "2b3c4d5e-6f70-4b8c-9d0e-1f2a3b4c5d6f",
+        "source": {
+          "kind": "agent-core",
+          "id": "core_0123456789abcdef"
+        },
+        "type": "core.contribute",
+        "version": "0.1",
+        "corrId": "2b3c4d5e-6f70-4b8c-9d0e-1f2a3b4c5d6f",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "pad": "A"
+          }
+        }
+      },
+      "header": {
+        "category": "env",
+        "sensitivity": "P1",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "env.v1",
+          "version": "1"
+        },
+        "fields": [
+          "region",
+          "epochMs",
+          "subjects"
+        ]
+      }
+    },
+    {
+      "id": "b64url-mod1",
+      "description": "padding tuned so the canonical UTF-8 byte length leaves remainder 1 (two base64url chars)",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "3c4d5e6f-7081-4c9d-8e1f-2a3b4c5d6e70",
+        "source": {
+          "kind": "agent-core",
+          "id": "core_0123456789abcdef"
+        },
+        "type": "core.contribute",
+        "version": "0.1",
+        "corrId": "3c4d5e6f-7081-4c9d-8e1f-2a3b4c5d6e70",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "pad": "AA"
+          }
+        }
+      },
+      "header": {
+        "category": "env",
+        "sensitivity": "P1",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "env.v1",
+          "version": "1"
+        },
+        "fields": [
+          "region",
+          "epochMs",
+          "subjects"
+        ]
+      }
+    },
+    {
+      "id": "b64url-mod2",
+      "description": "padding tuned so the canonical UTF-8 byte length leaves remainder 2 (three base64url chars with non-zero trailing bits)",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "4d5e6f70-8192-4d0e-9f2a-3b4c5d6e7f81",
+        "source": {
+          "kind": "mobile-suite",
+          "id": "suite_0123456789abcdef"
+        },
+        "type": "device.state",
+        "version": "0.1",
+        "corrId": "4d5e6f70-8192-4d0e-9f2a-3b4c5d6e7f81",
+        "payload": {
+          "enc": "plain",
+          "body": {
+            "pad": "中"
+          }
+        }
+      },
+      "header": {
+        "category": "device",
+        "sensitivity": "P2",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "device.v1",
+          "version": "1"
+        },
+        "fields": [
+          "deviceId",
+          "state",
+          "observedAt"
+        ]
+      }
+    },
+    {
+      "id": "aead-payload",
+      "description": "aead payload: signature covers keyId/alg/nonce/aad/ciphertext, never plaintext; aad carries CJK",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "5e6f7081-92a3-4e1f-8a3b-4c5d6e7f8092",
+        "source": {
+          "kind": "embody",
+          "id": "embody_0123456789abcdef"
+        },
+        "type": "device.request",
+        "version": "0.1",
+        "corrId": "5e6f7081-92a3-4e1f-8a3b-4c5d6e7f8092",
+        "payload": {
+          "enc": "aead",
+          "body": {
+            "keyId": "key_56475aa75463474c",
+            "alg": "xchacha20poly1305",
+            "nonce": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "aad": "绑定-头部-aad",
+            "ciphertext": "BBBBBBBBBBBBBBBBBBBBBBBB"
+          }
+        }
+      },
+      "header": {
+        "category": "device",
+        "sensitivity": "P3",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "device.v1",
+          "version": "1"
+        },
+        "fields": [
+          "deviceId",
+          "state",
+          "observedAt"
+        ]
+      }
+    },
+    {
+      "id": "empty-plain-body",
+      "description": "plain payload with an empty body object -> canonical body is {}",
+      "tsOffsetMs": 0,
+      "envelope": {
+        "id": "6f708192-a3b4-4f2a-9b3c-5d6e7f8091a3",
+        "source": {
+          "kind": "agent-core",
+          "id": "core_0123456789abcdef"
+        },
+        "type": "session.head",
+        "version": "0.1",
+        "corrId": "6f708192-a3b4-4f2a-9b3c-5d6e7f8091a3",
+        "payload": {
+          "enc": "plain",
+          "body": {}
+        }
+      },
+      "header": {
+        "category": "perm",
+        "sensitivity": "P0",
+        "keyIds": [
+          "key_56475aa75463474c"
+        ],
+        "schema": {
+          "name": "perm.v1",
+          "version": "1"
+        },
+        "fields": [
+          "subjectId",
+          "op",
+          "resource",
+          "granteeKeyIds",
+          "notBefore",
+          "notAfter"
+        ]
+      }
+    }
+  ]
+}

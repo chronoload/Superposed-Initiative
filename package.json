@@ -1,0 +1,29 @@
+{
+  "name": "superpose-mvp",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "packageManager": "pnpm@10.30.3",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "demo": "node apps/demo/src/index.ts",
+    "demo:flow": "node apps/demo/src/flow.ts",
+    "verify:deps": "node scripts/check-deps.mjs",
+    "test:accept": "vitest run tests/"
+  },
+  "devDependencies": {
+    "@noble/ciphers": "^2.4.0",
+    "@noble/ed25519": "^3.2.0",
+    "@noble/hashes": "^2.4.0",
+    "@types/node": "^24.19.2",
+    "@types/ws": "^8.18.2",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.5",
+    "ws": "^8.22.0",
+    "zod": "^3.25.76"
+  }
+}
