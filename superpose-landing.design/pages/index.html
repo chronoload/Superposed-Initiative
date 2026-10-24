@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superpose · 叠加态 Agent 基础设施</title>
+    <style id="theme-vars">
+:root {
+  /* Brand prefix: brand */
+  --brand-background: #0B0B0F;
+  --brand-foreground: #F2F2F5;
+  --brand-card: #14141A;
+  --brand-card-foreground: #F2F2F5;
+  --brand-popover: #1E1E26;
+  --brand-popover-foreground: #F2F2F5;
+  --brand-primary: #3AA0FF;
+  --brand-primary-foreground: #0B0B0F;
+  --brand-muted: #1E1E26;
+  --brand-muted-foreground: #A0A0B0;
+  --brand-border: #2A2A36;
+  --brand-input: #2A2A36;
+  --brand-ring: #3AA0FF;
+
+  /* Radius scale */
+  --brand-radius-sm: 4px;
+  --brand-radius-md: 8px;
+  --brand-radius-lg: 16px;
+
+  /* Legacy semantic tokens */
+  --bg: #0B0B0F;
+  --surface: #14141A;
+  --surface-2: #1E1E26;
+  --ink: #F2F2F5;
+  --ink-2: #A0A0B0;
+  --ink-3: #6C6C80;
+  --line: #2A2A36;
+  --brand: #3AA0FF;
+  --brand-ink: #0B0B0F;
+
+  /* State colors */
+  --state-success: #34D399;
+  --state-warning: #FBBF24;
+  --state-error: #F87171;
+  --state-info: #3AA0FF;
+
+  /* Spacing */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 80px;
+  --s-9: 120px;
+
+  /* Radius */
+  --r-xs: 2px;
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 16px;
+  --r-pill: 999px;
+
+  /* Shadow */
+  --shadow-1: 0 1px 2px rgba(15,23,42,.05), 0 1px 1px rgba(15,23,42,.03);
+  --shadow-2: 0 8px 24px -8px rgba(0,0,0,.35);
+  --shadow-3: 0 24px 60px -20px rgba(0,0,0,.45);
+}
+
+/* Typography */
+.font-display {
+  font-family: "Inter", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+
+.font-heading {
+  font-family: "Inter", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.font-body {
+  font-family: "Inter", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.font-mono {
+  font-family: "JetBrains Mono", "Fira Code", "SF Mono", Consolas, monospace;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--brand-background);
+    --color-foreground: var(--brand-foreground);
+    --color-card: var(--brand-card);
+    --color-card-foreground: var(--brand-card-foreground);
+    --color-popover: var(--brand-popover);
+    --color-popover-foreground: var(--brand-popover-foreground);
+    --color-primary: var(--brand-primary);
+    --color-primary-foreground: var(--brand-primary-foreground);
+    --color-muted: var(--brand-muted);
+    --color-muted-foreground: var(--brand-muted-foreground);
+    --color-border: var(--brand-border);
+    --color-input: var(--brand-input);
+    --color-ring: var(--brand-ring);
+    --radius-sm: var(--brand-radius-sm);
+    --radius-md: var(--brand-radius-md);
+    --radius-lg: var(--brand-radius-lg);
+  }
+  @layer base {
+    body { background: var(--brand-background); color: var(--brand-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--brand-background); }
+      .text-background { color: var(--brand-background); }
+      .border-background { border-color: var(--brand-background); }
+      .ring-background { --tw-ring-color: var(--brand-background); }
+      .bg-foreground { background-color: var(--brand-foreground); }
+      .text-foreground { color: var(--brand-foreground); }
+      .border-foreground { border-color: var(--brand-foreground); }
+      .ring-foreground { --tw-ring-color: var(--brand-foreground); }
+      .bg-card { background-color: var(--brand-card); }
+      .text-card { color: var(--brand-card); }
+      .border-card { border-color: var(--brand-card); }
+      .ring-card { --tw-ring-color: var(--brand-card); }
+      .bg-card-foreground { background-color: var(--brand-card-foreground); }
+      .text-card-foreground { color: var(--brand-card-foreground); }
+      .border-card-foreground { border-color: var(--brand-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--brand-card-foreground); }
+      .bg-popover { background-color: var(--brand-popover); }
+      .text-popover { color: var(--brand-popover); }
+      .border-popover { border-color: var(--brand-popover); }
+      .ring-popover { --tw-ring-color: var(--brand-popover); }
+      .bg-popover-foreground { background-color: var(--brand-popover-foreground); }
+      .text-popover-foreground { color: var(--brand-popover-foreground); }
+      .border-popover-foreground { border-color: var(--brand-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--brand-popover-foreground); }
+      .bg-primary { background-color: var(--brand-primary); }
+      .text-primary { color: var(--brand-primary); }
+      .border-primary { border-color: var(--brand-primary); }
+      .ring-primary { --tw-ring-color: var(--brand-primary); }
+      .bg-primary-foreground { background-color: var(--brand-primary-foreground); }
+      .text-primary-foreground { color: var(--brand-primary-foreground); }
+      .border-primary-foreground { border-color: var(--brand-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--brand-primary-foreground); }
+      .bg-muted { background-color: var(--brand-muted); }
+      .text-muted { color: var(--brand-muted); }
+      .border-muted { border-color: var(--brand-muted); }
+      .ring-muted { --tw-ring-color: var(--brand-muted); }
+      .bg-muted-foreground { background-color: var(--brand-muted-foreground); }
+      .text-muted-foreground { color: var(--brand-muted-foreground); }
+      .border-muted-foreground { border-color: var(--brand-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--brand-muted-foreground); }
+      .bg-border { background-color: var(--brand-border); }
+      .text-border { color: var(--brand-border); }
+      .border-border { border-color: var(--brand-border); }
+      .ring-border { --tw-ring-color: var(--brand-border); }
+      .bg-input { background-color: var(--brand-input); }
+      .text-input { color: var(--brand-input); }
+      .border-input { border-color: var(--brand-input); }
+      .ring-input { --tw-ring-color: var(--brand-input); }
+      .bg-ring { background-color: var(--brand-ring); }
+      .text-ring { color: var(--brand-ring); }
+      .border-ring { border-color: var(--brand-ring); }
+      .ring-ring { --tw-ring-color: var(--brand-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased bg-background text-foreground overflow-x-hidden">
+    <main>
+        <!-- Navigation -->
+        <nav class="fixed top-0 left-0 right-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
+            <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                        <i data-lucide="layers" class="w-4.5 h-4.5 text-primary-foreground"></i>
+                    </div>
+                    <span class="font-heading text-lg tracking-tight">Superpose</span>
+                </div>
+                <div class="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
+                    <a href="#concept" class="hover:text-foreground transition-colors">核心理念</a>
+                    <a href="#architecture" class="hover:text-foreground transition-colors">架构</a>
+                    <a href="#ecosystem" class="hover:text-foreground transition-colors">生态</a>
+                    <a href="#principles" class="hover:text-foreground transition-colors">原则</a>
+                </div>
+                <a href="#start" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors">
+                    开始探索
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="relative min-h-screen flex items-center pt-16" id="start">
+            <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                <div class="absolute top-1/4 -left-32 w-[500px] h-[500px] rounded-full bg-primary/10 blur-[120px]"></div>
+                <div class="absolute bottom-1/4 -right-32 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[140px]"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-30">
+                    <svg viewBox="0 0 400 400" class="w-full h-full animate-spin" style="animation-duration: 60s;">
+                        <defs>
+                            <linearGradient id="orbit-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:var(--brand-primary);stop-opacity:0.6" />
+                                <stop offset="100%" style="stop-color:var(--brand-primary);stop-opacity:0" />
+                            </linearGradient>
+                        </defs>
+                        <ellipse cx="200" cy="200" rx="180" ry="80" fill="none" stroke="url(#orbit-grad)" stroke-width="0.5" transform="rotate(30 200 200)"/>
+                        <ellipse cx="200" cy="200" rx="180" ry="80" fill="none" stroke="url(#orbit-grad)" stroke-width="0.5" transform="rotate(90 200 200)"/>
+                        <ellipse cx="200" cy="200" rx="180" ry="80" fill="none" stroke="url(#orbit-grad)" stroke-width="0.5" transform="rotate(150 200 200)"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="relative max-w-7xl mx-auto px-6 py-20 lg:py-32">
+                <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                    <div class="space-y-8">
+                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-mono">
+                            <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                            叠加态 Agent 基础设施
+                        </div>
+                        <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl text-foreground">
+                            Superpose
+                            <span class="block mt-2 text-muted-foreground">让 Agent 像量子一样共存</span>
+                        </h1>
+                        <p class="text-lg lg:text-xl text-muted-foreground max-w-xl leading-relaxed">
+                            一个去中心化的 Agent 运行时与身份网络。人类与 AI 在协议层完全对等，节点自治、断网可活、联网后自动同步。
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="#architecture" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors">
+                                了解架构
+                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                            </a>
+                            <a href="#concept" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border bg-card/50 hover:bg-card transition-colors">
+                                阅读理念
+                            </a>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="aspect-square max-w-lg mx-auto relative">
+                            <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/20 via-primary/5 to-transparent"></div>
+                            <div class="absolute inset-4 rounded-xl border border-primary/20 flex items-center justify-center">
+                                <div class="text-center space-y-4">
+                                    <div class="w-24 h-24 mx-auto rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center relative">
+                                        <div class="absolute inset-0 rounded-full bg-primary/20 animate-ping" style="animation-duration: 3s;"></div>
+                                        <i data-lucide="atom" class="w-10 h-10 text-primary relative z-10"></i>
+                                    </div>
+                                    <div class="font-mono text-sm text-muted-foreground">
+                                        <div class="flex items-center justify-center gap-4">
+                                            <span>|Human⟩</span>
+                                            <span class="text-primary">+</span>
+                                            <span>|AI⟩</span>
+                                        </div>
+                                        <div class="mt-2 text-primary/80">∝ Superposed Network</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="absolute -top-4 -right-4 px-3 py-1.5 rounded-lg bg-card border border-border text-xs font-mono text-muted-foreground">
+                                Offline-first
+                            </div>
+                            <div class="absolute -bottom-4 -left-4 px-3 py-1.5 rounded-lg bg-card border border-border text-xs font-mono text-muted-foreground">
+                                Peer-to-peer
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Concept Section -->
+        <section id="concept" class="py-24 lg:py-32 border-t border-border">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid lg:grid-cols-12 gap-12">
+                    <div class="lg:col-span-4">
+                        <h2 class="font-heading text-3xl lg:text-4xl text-foreground mb-4">叠加态，不是比喻</h2>
+                        <p class="text-muted-foreground leading-relaxed">
+                            在 Superpose 网络中，每个节点同时处于多种可能状态：在线或离线、人类或 AI、本地或联邦。直到一次真实的交互发生，状态才"坍缩"为可执行的动作。
+                        </p>
+                    </div>
+                    <div class="lg:col-span-8 grid sm:grid-cols-2 gap-6">
+                        <div class="p-6 rounded-xl bg-card border border-border hover:border-primary/30 transition-colors group">
+                            <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                                <i data-lucide="users" class="w-5 h-5 text-primary"></i>
+                            </div>
+                            <h3 class="font-heading text-lg mb-2">人机地位平等</h3>
+                            <p class="text-sm text-muted-foreground leading-relaxed">人类节点与 AI 节点使用相同的 Ed25519 身份、相同的消息协议、相同的签名权重。没有主从，只有协商。</p>
+                        </div>
+                        <div class="p-6 rounded-xl bg-card border border-border hover:border-primary/30 transition-colors group">
+                            <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                                <i data-lucide="shield-check" class="w-5 h-5 text-primary"></i>
+                            </div>
+                            <h3 class="font-heading text-lg mb-2">数据主权在节点</h3>
+                            <p class="text-sm text-muted-foreground leading-relaxed">模型是租的，算力是租的，宿主是临时的。身份、记忆、密钥跟着 PocketAgent 卡片走，Superpose 只调用、不持有。</p>
+                        </div>
+                        <div class="p-6 rounded-xl bg-card border border-border hover:border-primary/30 transition-colors group">
+                            <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                                <i data-lucide="network" class="w-5 h-5 text-primary"></i>
+                            </div>
+                            <h3 class="font-heading text-lg mb-2">联邦而非中心</h3>
+                            <p class="text-sm text-muted-foreground leading-relaxed">每个客户、社区或设备自托管一个节点，通过标准协议联邦。官方维护基准与规则，不运营节点、不持有数据。</p>
+                        </div>
+                        <div class="p-6 rounded-xl bg-card border border-border hover:border-primary/30 transition-colors group">
+                            <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                                <i data-lucide="radio" class="w-5 h-5 text-primary"></i>
+                            </div>
+                            <h3 class="font-heading text-lg mb-2">断网可活</h3>
+                            <p class="text-sm text-muted-foreground leading-relaxed">传输层可插拔：有公网走 libp2p，没公网走 Wi-Fi Mesh，再不行走 LoRa 文本信道。上层只看到同一个事件流。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Section -->
+        <section id="architecture" class="py-24 lg:py-32 border-t border-border">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl mb-16">
+                    <h2 class="font-heading text-3xl lg:text-4xl text-foreground mb-4">四层架构，六层实现</h2>
+                    <p class="text-muted-foreground leading-relaxed">
+                        顶层对象只有四层，代码与仓库按六层切分。真正的风险不是"几层"，而是有人把工程切分当成对外宣传的独立组件。
+                    </p>
+                </div>
+                
+                <div class="grid lg:grid-cols-2 gap-8 mb-16">
+                    <div class="p-8 rounded-2xl bg-card border border-border">
+                        <h3 class="font-heading text-xl mb-6 flex items-center gap-3">
+                            <i data-lucide="layout-template" class="w-5 h-5 text-primary"></i>
+                            文档层（4 层）
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border/60">
+                                <div class="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center shrink-0 font-mono text-sm text-primary">1</div>
+                                <div>
+                                    <div class="font-medium">模型层</div>
+                                    <div class="text-sm text-muted-foreground">Foundation Model 与推理后端，可被替换</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border/60">
+                                <div class="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center shrink-0 font-mono text-sm text-primary">2</div>
+                                <div>
+                                    <div class="font-medium">Agent 卡片层</div>
+                                    <div class="text-sm text-muted-foreground">身份、记忆、策略参数与状态</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border/60">
+                                <div class="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center shrink-0 font-mono text-sm text-primary">3</div>
+                                <div>
+                                    <div class="font-medium">Superpose 协调层</div>
+                                    <div class="text-sm text-muted-foreground">Carrier 契约、事件路由、组网与快照</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border/60">
+                                <div class="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center shrink-0 font-mono text-sm text-primary">4</div>
+                                <div>
+                                    <div class="font-medium">节点执行层</div>
+                                    <div class="text-sm text-muted-foreground">Harness 运行时、工具执行、本地存储</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-8 rounded-2xl bg-card border border-border">
+                        <h3 class="font-heading text-xl mb-6 flex items-center gap-3">
+                            <i data-lucide="code-2" class="w-5 h-5 text-primary"></i>
+                            工程层（6 层）
+                        </h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="p-4 rounded-lg bg-background/50 border border-border/60 text-center">
+                                <div class="text-xs text-muted-foreground mb-1">Layer 1</div>
+                                <div class="font-medium">模型</div>
+                            </div>
+                            <div class="p-4 rounded-lg bg-background/50 border border-border/60 text-center">
+                                <div class="text-xs text-muted-foreground mb-1">Layer 2</div>
+                                <div class="font-medium">决策</div>
+                            </div>
+                            <div class="p-4 rounded-lg bg-background/50 border border-border/60 text-center">
+                                <div class="text-xs text-muted-foreground mb-1">Layer 3</div>
+                                <div class="font-medium">状态</div>
+                            </div>
+                            <div class="p-4 rounded-lg bg-background/50 border border-border/60 text-center">
+                                <div class="text-xs text-muted-foreground mb-1">Layer 4</div>
+                                <div class="font-medium">身份</div>
+                            </div>
+                            <div class="p-4 rounded-lg bg-background/50 border border-border/60 text-center">
+                                <div class="text-xs text-muted-foreground mb-1">Layer 5</div>
+                                <div class="font-medium">执行</div>
+                            </div>
+                            <div class="p-4 rounded-lg bg-background/50 border border-border/60 text-center">
+                                <div class="text-xs text-muted-foreground mb-1">Layer 6</div>
+                                <div class="font-medium">组网</div>
+                            </div>
+                        </div>
+                        <div class="mt-6 p-4 rounded-lg border border-primary/20 bg-primary/5 text-sm text-muted-foreground">
+                            <span class="text-primary font-medium">注意：</span>决策层横跨卡片侧（策略与门控阈值）与协调层侧（路由决策与环境投影），不可将其视为独立顶层实体。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 rounded-2xl bg-gradient-to-br from-card to-card/50 border border-border">
+                    <h3 class="font-heading text-xl mb-6">状态同步：快照 + 增量</h3>
+                    <div class="grid sm:grid-cols-3 gap-6">
+                        <div class="space-y-2">
+                            <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                                <i data-lucide="camera" class="w-5 h-5 text-primary"></i>
+                            </div>
+                            <h4 class="font-medium">首次全量快照</h4>
+                            <p class="text-sm text-muted-foreground">连接时先同步完整状态与版本号，基于 Chandy-Lamport 协议。</p>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                                <i data-lucide="arrow-right-left" class="w-5 h-5 text-primary"></i>
+                            </div>
+                            <h4 class="font-medium">后续增量消息</h4>
+                            <p class="text-sm text-muted-foreground">JSON Patch / 增量格式传播状态变化，低延迟、低带宽。</p>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                                <i data-lucide="rotate-ccw" class="w-5 h-5 text-primary"></i>
+                            </div>
+                            <h4 class="font-medium">版本落后时重同步</h4>
+                            <p class="text-sm text-muted-foreground">多数据源使用版本向量标记各源最新版本，落后则请求全量。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ecosystem Section -->
+        <section id="ecosystem" class="py-24 lg:py-32 border-t border-border">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl mb-16">
+                    <h2 class="font-heading text-3xl lg:text-4xl text-foreground mb-4">生态组件</h2>
+                    <p class="text-muted-foreground leading-relaxed">
+                        每个组件都有明确的边界与可替换性。没有一个是官方垄断的护城河，而是可以被用户自行实现或替换的接口。
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="p-6 rounded-xl bg-card border border-border hover:border-primary/30 transition-all hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+                            <i data-lucide="id-card" class="w-6 h-6 text-primary"></i>
+                        </div>
+                        <h3 class="font-heading text-xl mb-2">PocketAgent</h3>
+                        <p class="text-sm text-muted-foreground leading-relaxed">规范名。携带策略参数与状态的 Agent 载体，拔卡即销毁进程，不留残留。</p>
+                    </div>
+                    <div class="p-6 rounded-xl bg-card border border-border hover:border-primary/30 transition-all hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+                            <i data-lucide="cpu" class="w-6 h-6 text-primary"></i>
+                        </div>
+                        <h3 class="font-heading text-xl mb-2">Harness</h3>
+                        <p class="text-sm text-muted-foreground leading-relaxed">Agent 运行时。策略与状态在卡片，进程在宿主执行。</p>
+                    </div>
+                    <div class="p-6 rounded-xl bg-card border border-border hover:border-primary/30 transition-all hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+                            <i data-lucide="truck" class="w-6 h-6 text-primary"></i>
+                        </div>
+                        <h3 class="font-heading text-xl mb-2">Carrier</h3>
+                        <p class="text-sm text-muted-foreground leading-relaxed">协调层契约，定义节点如何发现、路由、同步与快照。</p>
+                    </div>
+                    <div class="p-6 rounded-xl bg-card border border-border hover:border-primary/30 transition-all hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+                            <i data-lucide="brain-circuit" class="w-6 h-6 text-primary"></i>
+                        </div>
+                        <h3 class="font-heading text-xl mb-2">Jev</h3>
+                        <p class="text-sm text-muted-foreground leading-relaxed">决策接口的首选实现，非硬依赖。可降级为 D1 规则表或 D2 只读投影。</p>
+                    </div>
+                    <div class="p-6 rounded-xl bg-card border border-border hover:border-primary/30 transition-all hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+                            <i data-lucide="file-text" class="w-6 h-6 text-primary"></i>
+                        </div>
+                        <h3 class="font-heading text-xl mb-2">Event Ledger</h3>
+                        <p class="text-sm text-muted-foreground leading-relaxed">不可变事件日志，支撑状态溯源、审计与断线重连后的确定性重放。</p>
+                    </div>
+                    <div class="p-6 rounded-xl bg-card border border-border hover:border-primary/30 transition-all hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+                            <i data-lucide="hexagon" class="w-6 h-6 text-primary"></i>
+                        </div>
+                        <h3 class="font-heading text-xl mb-2">Mesh</h3>
+                        <p class="text-sm text-muted-foreground leading-relaxed">基础设施术语，保留为组网层词形。Global / Carrier / Sandbox / Root 保留为可交付组件。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Principles Section -->
+        <section id="principles" class="py-24 lg:py-32 border-t border-border">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid lg:grid-cols-2 gap-16 items-start">
+                    <div>
+                        <h2 class="font-heading text-3xl lg:text-4xl text-foreground mb-6">设计原则</h2>
+                        <p class="text-muted-foreground leading-relaxed mb-8">
+                            Superpose 的每一个决策都指向同一个目标：让 Agent 基础设施可以被个人持有、被社区联邦、被审计验证，而不是被某一家云厂商锁定。
+                        </p>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4">
+                                <div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-3.5 h-3.5 text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium">不做基础模型训练</div>
+                                    <div class="text-sm text-muted-foreground">只调整策略与门控，不触碰模型权重。</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-3.5 h-3.5 text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium">不做官方托管节点</div>
+                                    <div class="text-sm text-muted-foreground">官方只维护基准、规则与 Bench，不运营数据。</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-3.5 h-3.5 text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium">不做代币或资产化</div>
+                                    <div class="text-sm text-muted-foreground">权属清晰即可，不引入金融化激励。</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <i data-lucide="check" class="w-3.5 h-3.5 text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium">不做名次与联赛</div>
+                                    <div class="text-sm text-muted-foreground">Bench 提供可复现任务集，不发布官方排名。</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-8 rounded-2xl bg-card border border-border">
+                        <blockquote class="relative">
+                            <div class="absolute -top-2 -left-2 text-6xl text-primary/20 font-serif">"</div>
+                            <p class="relative text-lg lg:text-xl text-foreground leading-relaxed pl-6">
+                                模型是租的，算力是租的，宿主是临时的。唯一属于你的是身份、记忆与策略。
+                            </p>
+                            <footer class="mt-6 pl-6 text-sm text-muted-foreground">
+                                — Superpose 核心主张
+                            </footer>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-24 lg:py-32 border-t border-border">
+            <div class="max-w-4xl mx-auto px-6 text-center">
+                <h2 class="font-heading text-3xl lg:text-5xl text-foreground mb-6">加入叠加态网络</h2>
+                <p class="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
+                    无论你是开发者、研究者还是早期使用者，都可以从运行一个本地节点开始，体验去中心化 Agent 的协作方式。
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#" class="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors">
+                        <i data-lucide="download" class="w-5 h-5"></i>
+                        下载节点客户端
+                    </a>
+                    <a href="#" class="inline-flex items-center gap-2 px-8 py-4 rounded-xl border border-border bg-card hover:bg-card/80 transition-colors">
+                        <i data-lucide="book-open" class="w-5 h-5"></i>
+                        阅读总纲
+                    </a>
+                </div>
+                <div class="mt-12 flex justify-center gap-8 text-sm text-muted-foreground">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="github" class="w-4 h-4"></i>
+                        <span>开源协议</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="file-code" class="w-4 h-4"></i>
+                        <span>20 篇 ADR</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="message-square" class="w-4 h-4"></i>
+                        <span>社区联邦</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-12 border-t border-border">
+            <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-md bg-primary/10 flex items-center justify-center">
+                        <i data-lucide="layers" class="w-3.5 h-3.5 text-primary"></i>
+                    </div>
+                    <span class="font-heading text-sm">Superpose</span>
+                </div>
+                <div class="text-sm text-muted-foreground">
+                    叠加态 Agent 基础设施 · 去中心化 · 人机平等 · 断网可活
+                </div>
+            </div>
+        </footer>
+    </main>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

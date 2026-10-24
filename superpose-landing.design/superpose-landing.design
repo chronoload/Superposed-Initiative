@@ -1,0 +1,34 @@
+{
+  "data": [
+    {
+      "id": "page-index",
+      "title": "Superpose · 叠加态 Agent 基础设施",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1760412480000,
+      "canvasData": {
+        "x": 0,
+        "y": -12,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 4930,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-e0f2f0a6",
+          "measuredAt": 1792133955625
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/index.html",
+        "interactions": []
+      }
+    }
+  ],
+  "config": {
+    "autoLayout": false,
+    "deviceType": "desktop",
+    "projectName": "Superpose 概念落地页",
+    "showEdge": false,
+    "visualEditorEnabled": false
+  }
+}

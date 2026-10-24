@@ -1,0 +1,181 @@
+{
+  "skillProvenance": {
+    "name": "solo-design",
+    "version": "2026.07.06.8",
+    "version_source": "skill-release-manifest.json",
+    "read_status": "ok"
+  },
+  "project": {
+    "name": "superpose-landing",
+    "displayName": "Superpose 概念落地页",
+    "deviceType": "desktop",
+    "resolvedLane": "free_exploration",
+    "intentProfile": {
+      "caseFamily": "page_creation",
+      "surface": "web",
+      "complexity": "simple-free-fast",
+      "routingReason": "Open-ended concept landing page for Superpose project; no active Design Library, no restore target, single page with multiple explanatory sections."
+    },
+    "contextReadScope": {
+      "mainAgent": {
+        "forbiddenReads": [
+          "other intent-workflows/**",
+          "Sub-Agent implementation files before dispatch"
+        ]
+      },
+      "pageSubAgent": {
+        "allowedReads": [
+          "current lane page runtime guide",
+          "current lane dispatch contract excerpt",
+          "current Page Packet",
+          "supplementaryReads[] only"
+        ],
+        "forbiddenReads": [
+          "SKILL.md full re-read",
+          "other intent-workflows/**",
+          "full runtime-orchestration-summary.json unless explicitly sliced"
+        ]
+      },
+      "readScopeLedgerWriter": "shared-runtime/deterministic-tooling/build-page-dispatch-manifest.mjs"
+    },
+    "selectedIntentWorkflowRead": true,
+    "contextRequirementsLoaded": [
+      {
+        "path": "shared-runtime/runtime-boundaries/lane-runtime-contracts.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "shared-runtime/agent-dispatch-runtime/lane-dispatch-index.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "delivery-quality/page-rendering-quality-gate.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "delivery-quality/design-artifact-validation.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "delivery-quality/delivery-evidence-contract.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "visual-experience/visual-experience-guidelines.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      }
+    ],
+    "validationRunDiscipline": {
+      "maxFullValidationRuns": 2,
+      "softWarningsTriggerRepair": false,
+      "blockingRepairMode": "targeted-once",
+      "forbiddenRepairTriggers": [
+        "soft-warning-only",
+        "provenance-warning-only",
+        "style-warning-only"
+      ]
+    },
+    "lowValueCallWatchdog": {
+      "applies": true,
+      "noProgressSignals": [
+        "no_tool_call",
+        "no_artifact_diff",
+        "no_structured_decision"
+      ],
+      "noProgressNextAction": "enter_readiness_or_blocked_summary"
+    },
+    "cssPreflightEvidence": {
+      "applies": true,
+      "status": "passed",
+      "command": "node c:\\Users\\qu\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\apply-html-head-contract.mjs c:\\Users\\qu\\Desktop\\物理科学与技术论题\\TS2\\projects\\Superpose\\superpose-landing.design\\colors_and_type.css c:\\Users\\qu\\Desktop\\物理科学与技术论题\\TS2\\projects\\Superpose\\superpose-landing.design\\.preflight\\preflight.html --title=\"Preflight\" --lang=zh-CN --prefix=brand",
+      "brandPrefix": "brand",
+      "checks": {
+        "themeVars": "present",
+        "semanticTokenFallback": "present",
+        "themeInline": "present",
+        "tailwindCdn": "present",
+        "htmlClass": "present",
+        "semanticMappings": "resolved"
+      },
+      "retryCount": 0,
+      "blockingReason": null
+    },
+    "styleContinuityAnchors": {
+      "primaryColor": "#3AA0FF",
+      "background": "#0B0B0F",
+      "surface": "#14141A",
+      "typeStack": "Inter, Noto Sans SC, PingFang SC, Microsoft YaHei, system-ui, sans-serif",
+      "radiusScale": "4/8/16px",
+      "compositionPattern": "editorial-hero + asymmetric-two-column architecture"
+    },
+    "dispatchPreflightManifest": [
+      {
+        "nodeId": "page-index",
+        "htmlSrc": "pages/index.html",
+        "packetType": "FreePagePacket",
+        "pageRuntimeGuide": "intent-workflows/intent-page-free-exploration/free-exploration-page-runtime.md",
+        "dispatchContract": "intent-workflows/intent-page-free-exploration/dispatch-contract.md",
+        "allowedWritePaths": [
+          "pages/index.html"
+        ],
+        "forbiddenWriteRoots": [
+          "*.design",
+          "runtime-orchestration-summary.json",
+          "validation-report.json",
+          "finish-readiness-report.json"
+        ],
+        "toolPolicy": {
+          "todoWriteAllowed": false,
+          "validationScriptsAllowed": false,
+          "previewAllowed": false,
+          "helperScriptsAllowed": false,
+          "designFileWriteAllowed": false,
+          "allowedWritePaths": [
+            "pages/index.html"
+          ]
+        }
+      }
+    ],
+    "expectedDispatches": [
+      {
+        "nodeId": "page-index",
+        "pageId": "page-index",
+        "targetPageId": "page-index",
+        "htmlSrc": "pages/index.html",
+        "packetType": "FreePagePacket",
+        "status": "completed",
+        "changedFiles": [
+          "pages/index.html"
+        ],
+        "toolCallLedger": {
+          "source": "main-agent-runtime-trace",
+          "traceDigest": "1f964d5231853b36cf7b51b02a584da605b27cca196c11a4ea8770ee9bdb0aaf",
+          "todoWriteCalls": 0,
+          "previewCalls": 0,
+          "validationScriptCalls": 0,
+          "helperScriptWrites": 0
+        },
+        "recordedAt": "2026-10-16T06:58:29.497Z",
+        "source": "record-dispatch-completion.mjs"
+      }
+    ],
+    "pages": [
+      {
+        "nodeId": "page-index",
+        "htmlSrc": "pages/index.html",
+        "title": "Superpose · 叠加态 Agent 基础设施",
+        "qualityRisks": [
+          "information-dense architecture section",
+          "CJK long title in hero"
+        ]
+      }
+    ],
+    "mainAgentPostDispatchMutations": []
+  }
+}

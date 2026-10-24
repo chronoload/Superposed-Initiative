@@ -1,0 +1,91 @@
+{
+  "success": true,
+  "outcome": "passed",
+  "repairable": true,
+  "terminalViolations": [],
+  "terminalBlockingSummary": null,
+  "skillProvenance": {
+    "name": "solo-design",
+    "version": "2026.07.06.8",
+    "version_source": "skill-release-manifest.json",
+    "runtime_skill_dir": null,
+    "recorded_at": null,
+    "expected_version": "2026.08.06.19.15.08",
+    "status": "mismatch",
+    "read_status": "ok"
+  },
+  "operatingMode": "free-explore",
+  "renderBlockingErrorCount": 0,
+  "softWarningCount": 0,
+  "renderBlockingErrors": [],
+  "errorSignatures": [],
+  "softWarnings": [],
+  "repairPlanHints": [],
+  "repairActionTable": [],
+  "errorCount": 0,
+  "warningCount": 0,
+  "errors": [],
+  "warnings": [],
+  "validationRunDisciplineStatus": {
+    "declared": true,
+    "restoreMode": false,
+    "maxFullValidationRuns": 2,
+    "validationHistoryCount": 0,
+    "repairLedgerCount": 0,
+    "softWarningsTriggerRepair": false,
+    "terminalState": null,
+    "nextAction": null,
+    "violations": [],
+    "success": true
+  },
+  "terminalState": null,
+  "nextCheck": {
+    "type": "finish-readiness",
+    "command": "node \"c:\\Users\\qu\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\validate-finish-readiness.mjs\" \"c:\\Users\\qu\\Desktop\\物理科学与技术论题\\TS2\\projects\\Superpose\\superpose-landing.design\" --check=all",
+    "fullValidationAllowed": false,
+    "reason": "workspace validation passed; run complete finish readiness before final delivery"
+  },
+  "repairBatch": [],
+  "repairContextPacket": {
+    "schema_version": "1.0",
+    "purpose": "small-context repair packet; read this before full validation-report.json",
+    "success": true,
+    "terminalState": null,
+    "skillProvenance": {
+      "name": "solo-design",
+      "version": "2026.07.06.8",
+      "version_source": "skill-release-manifest.json",
+      "runtime_skill_dir": null,
+      "recorded_at": null,
+      "expected_version": "2026.08.06.19.15.08",
+      "status": "mismatch",
+      "read_status": "ok"
+    },
+    "renderBlockingErrorCount": 0,
+    "softWarningCount": 0,
+    "renderBlockingErrors": [],
+    "repairActionTable": [],
+    "nextCheck": {
+      "type": "finish-readiness",
+      "command": "node \"c:\\Users\\qu\\.trae-cn\\builtin\\design\\default\\skills\\solo-design\\shared-runtime\\deterministic-tooling\\validate-finish-readiness.mjs\" \"c:\\Users\\qu\\Desktop\\物理科学与技术论题\\TS2\\projects\\Superpose\\superpose-landing.design\" --check=all",
+      "fullValidationAllowed": false,
+      "reason": "workspace validation passed; run complete finish readiness before final delivery"
+    },
+    "forbidden": [
+      "do not read validator source",
+      "do not rerun full validation when nextCheck.fullValidationAllowed=false",
+      "do not start preview/browser unless user explicitly asks",
+      "do not hand-edit repair ledger fields"
+    ]
+  },
+  "projectFileHashes": {
+    "superpose-landing.design": "57bcdd9754f3895855b4683f557b95a83909dedd245ebafda94c0cadd39fbc8d",
+    "colors_and_type.css": "bab224b71a17b69a50fecc90027e2a754b5212336eedc818090cada6b876692e",
+    "runtime-orchestration-summary.json": "abf7329173e9f3708f64a97ff5af5864f006880f88440127fff511a26a45eefc",
+    "pages/index.html": "1f964d5231853b36cf7b51b02a584da605b27cca196c11a4ea8770ee9bdb0aaf"
+  },
+  "designDir": "c:\\Users\\qu\\Desktop\\物理科学与技术论题\\TS2\\projects\\Superpose\\superpose-landing.design",
+  "expectedPages": 1,
+  "requireInteractions": null,
+  "checkedAt": "2026-10-16T06:58:51.109Z"
+}
